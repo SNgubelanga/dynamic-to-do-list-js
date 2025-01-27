@@ -12,14 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add a new task to the list and optionally save to Local Storage
     function addTask(taskText, save = true) {
-        if (taskText.trim() === "") {
+        const trimmedTaskText = taskText.trim(); // Ensure trimmed value is used
+        if (trimmedTaskText === "") {
             alert("Please enter a task!");
             return;
         }
 
         // Create a new list item
         const listItem = document.createElement('li');
-        listItem.textContent = taskText;
+        listItem.textContent = trimmedTaskText;
 
         // Add a class for styling
         listItem.classList.add('task-item');
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         removeButton.classList.add('remove-btn');
 
         // Assign an onclick event to remove the task
-        removeButton.onclick = () => removeTask(taskText, listItem);
+        removeButton.onclick = () => removeTask(trimmedTaskText, listItem);
 
         // Append the remove button to the list item
         listItem.appendChild(removeButton);
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Save the task to Local Storage (if save is true)
         if (save) {
             const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-            storedTasks.push(taskText);
+            storedTasks.push(trimmedTaskText);
             localStorage.setItem('tasks', JSON.stringify(storedTasks));
         }
 
@@ -64,12 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Attach Event Listeners
     addButton.addEventListener('click', () => {
-        addTask(taskInput.value);
+        addTask(taskInput.value.trim()); // Use trimmed input value
     });
 
     taskInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
-            addTask(taskInput.value);
+            addTask(taskInput.value.trim()); // Use trimmed input value
         }
     });
 
